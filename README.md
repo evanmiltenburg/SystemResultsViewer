@@ -14,6 +14,30 @@ need to work offline.
 Other versions may work, but remain untested. The easiest way to get everything
 to run is to install Anaconda. Download it from [this page](https://www.anaconda.com/download/).
 
+## Sources
+
+The data comes from the different systems that we analyzed in our COLING paper.
+
+* BibTeX for all these systems can be found in the `Data/Systems/` folder.
+* BibTeX for our COLING-paper is as follows:
+
+```
+@InProceedings{C18-1147,
+  author = 	"van Miltenburg, Emiel
+		and Elliott, Desmond
+		and Vossen, Piek",
+  title = 	"Measuring the Diversity of Automatic Image Descriptions",
+  booktitle = 	"Proceedings of the 27th International Conference on Computational Linguistics",
+  year = 	"2018",
+  publisher = 	"Association for Computational Linguistics",
+  pages = 	"1730--1741",
+  location = 	"Santa Fe, New Mexico, USA",
+  url = 	"http://aclweb.org/anthology/C18-1147"
+}
+```
+
+See the original repository [here](https://github.com/evanmiltenburg/MeasureDiversity).
+
 ## Screenshot
 Here's a preview of the tool. There's a simple navigation menu (previous, next),
 with the image below, followed by the human-generated descriptions and the descriptions
