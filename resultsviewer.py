@@ -1,6 +1,7 @@
 # Stdlib
 import json
 import os
+from pathlib import Path
 from collections import defaultdict
 from urllib.request import urlretrieve
 
@@ -49,28 +50,28 @@ def load_all_systems(system_files):
     return system_data_by_images
 
 
-def download_url(url, folder='./static/COCO-images/'):
+def download_url(url, folder):
     "Download a file to a particular folder."
     filename = url.split('_')[-1]
-    local_filename, headers = urlretrieve(url, folder + filename)
+    local_filename, headers = urlretrieve(url, folder / filename)
     print('Downloaded:', local_filename)
     print('Headers:', headers)
 
 ################################################################################
 # Loading the data.
 
-system_files = {'Dai et al. 2017': './Data/Systems/Dai-et-al-2017/Val/gan_val2014.json',
-                'Liu et al. 2017': './Data/Systems/Liu-et-al-2017/Val/captions_val2014_MAT_results.json',
-                'Mun et al. 2017': './Data/Systems/Mun-et-al-2017/Val/captions_val2014_senAttKnn-kCC_results.json',
-                'Shetty et al. 2016': './Data/Systems/Shetty-et-al-2016/Val/captions_val2014_r-dep3-frcnn80detP3+3SpatGaussScaleP6grRBFsun397-gaA3cA3-per9.72-b5_results.json',
-                'Shetty et al. 2017': './Data/Systems/Shetty-et-al-2017/Val/captions_val2014_MLE-20Wrd-Smth3-randInpFeatMatch-ResnetMean-56k-beamsearch5_results.json',
-                'Tavakoli et al. 2017': './Data/Systems/Tavakoli-et-al-2017/Val/captions_val2014_PayingAttention-ICCV2017_results.json',
-                'Vinyals et al. 2017': './Data/Systems/Vinyals-et-al-2017/Val/captions_val2014_googlstm_results.json',
-                'Wu et al. 2016': './Data/Systems/Wu-et-al-2016/Val/captions_val2014_Attributes_results.json',
-                'Zhou et al. 2017': './Data/Systems/Zhou-et-al-2017/Val/captions_val2014_e2e_results.json'}
+system_files = {'Dai et al. 2017': Path('./Data/Systems/Dai-et-al-2017/Val/gan_val2014.json'),
+                'Liu et al. 2017': Path('./Data/Systems/Liu-et-al-2017/Val/captions_val2014_MAT_results.json'),
+                'Mun et al. 2017': Path('./Data/Systems/Mun-et-al-2017/Val/captions_val2014_senAttKnn-kCC_results.json'),
+                'Shetty et al. 2016': Path('./Data/Systems/Shetty-et-al-2016/Val/captions_val2014_r-dep3-frcnn80detP3+3SpatGaussScaleP6grRBFsun397-gaA3cA3-per9.72-b5_results.json'),
+                'Shetty et al. 2017': Path('./Data/Systems/Shetty-et-al-2017/Val/captions_val2014_MLE-20Wrd-Smth3-randInpFeatMatch-ResnetMean-56k-beamsearch5_results.json'),
+                'Tavakoli et al. 2017': Path('./Data/Systems/Tavakoli-et-al-2017/Val/captions_val2014_PayingAttention-ICCV2017_results.json'),
+                'Vinyals et al. 2017': Path('./Data/Systems/Vinyals-et-al-2017/Val/captions_val2014_googlstm_results.json'),
+                'Wu et al. 2016': Path('./Data/Systems/Wu-et-al-2016/Val/captions_val2014_Attributes_results.json'),
+                'Zhou et al. 2017': Path('./Data/Systems/Zhou-et-al-2017/Val/captions_val2014_e2e_results.json')}
 
-human_data = load_human_data('./Data/COCO/captions_val2014.json')
-image_data = load_image_data('./Data/COCO/captions_val2014.json')
+human_data = load_human_data(Path('./Data/COCO/captions_val2014.json'))
+image_data = load_image_data(Path('./Data/COCO/captions_val2014.json'))
 system_data = load_all_systems(system_files)
 
 imgids = list(image_data)
@@ -120,10 +121,12 @@ def item_page(imgid):
     image = image_data[imgid]['filename']
     
     # Check if the image exists. If not, download it.
-    if not os.path.isfile('./static/COCO-images/' + image):
+    folder = Path('./static/COCO-images/')
+    path_to_image = folder / image
+    if not os.path.isfile(path_to_image):
         print("We need to download the image!")
         url = image_data[imgid]['url']
-        download_url(url)
+        download_url(url, folder)
     return render_template('index.html',
                             imgid=imgid,
                             humans=human_captions,
