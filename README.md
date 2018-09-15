@@ -11,7 +11,8 @@ need to work offline.
 * Python 3.6
 * Flask 0.12
 
-Other versions may work, but remain untested.
+Other versions may work, but remain untested. The easiest way to get everything
+to run is to install Anaconda. Download it from [this page](https://www.anaconda.com/download/).
 
 ## Screenshot
 Here's a preview of the tool. There's a simple navigation menu (previous, next),
